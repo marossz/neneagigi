@@ -272,18 +272,24 @@
   .slip-head span{font-family:"Caveat",cursive;font-weight:700;color:var(--red);font-size:1.2rem;}
   .field{margin-bottom:18px;}
   .field label{display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:.4em;}
-  .field input,.field select{
+  .field input,.field select,.field textarea{
     width:100%;padding:.75em .9em;
     border:2px solid var(--paper-line);border-radius:8px;
     font-family:"Work Sans",sans-serif;font-size:1rem;background:var(--paper);
   }
-  .field input:focus,.field select:focus{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy);}
+  .field textarea{resize:vertical;}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy);}
   .order-slip .btn{width:100%;justify-content:center;margin-top:6px;font-size:1.05rem;}
   .form-note{font-size:.82rem;color:var(--muted);text-align:center;margin-top:14px;}
   #confirm-msg{
     display:none;background:#eaf6ec;border:2px solid #2e7d4f;color:#1c5c37;
     border-radius:8px;padding:16px 18px;font-weight:600;text-align:center;margin-top:16px;
   }
+  #error-msg{
+    display:none;background:#fbeaea;border:2px solid #b5271a;color:#8a1c11;
+    border-radius:8px;padding:16px 18px;font-weight:600;text-align:center;margin-top:16px;
+  }
+  .order-slip .btn:disabled{opacity:.6;cursor:not-allowed;}
 
   /* ---------- footer ---------- */
   footer{padding:44px 0;text-align:center;color:var(--muted);font-size:.9rem;}
@@ -465,27 +471,21 @@
       <form class="order-slip" id="signup-form">
         <div class="slip-head"><span>#0001</span><span>Comandă de anunțare</span></div>
         <div class="field">
-          <label for="nume">Nume</label>
-          <input type="text" id="nume" name="nume" placeholder="Cum te numești?" required>
+          <label for="name">Nume</label>
+          <input type="text" id="name" name="name" placeholder="Cum te numești?" required>
         </div>
         <div class="field">
-          <label for="contact">Telefon sau email</label>
-          <input type="text" id="contact" name="contact" placeholder="07xx xxx xxx sau nume@email.ro" required>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="nume@email.ro" required>
         </div>
         <div class="field">
-          <label for="meserie">Ce fel de meșter cauți cel mai des?</label>
-          <select id="meserie" name="meserie">
-            <option value="electrician">Electrician</option>
-            <option value="instalator">Instalator</option>
-            <option value="zugrav">Zugrav</option>
-            <option value="mobila">Mobilă &amp; montaj</option>
-            <option value="lacatus">Lăcătuș</option>
-            <option value="altceva">Altceva</option>
-          </select>
+          <label for="message">Ce ai nevoie? (opțional)</label>
+          <textarea id="message" name="message" rows="3" placeholder="Ex: caut un electrician de încredere pentru Sector 2"></textarea>
         </div>
         <button type="submit" class="btn">Vreau să fiu anunțat</button>
         <p class="form-note">Nu trimitem spam. Doar un mesaj când lansăm.</p>
         <div id="confirm-msg">Gata! Te anunțăm de îndată ce Nenea Gigi începe treaba în cartierul tău.</div>
+        <div id="error-msg">Ceva n-a mers bine. Încearcă din nou în câteva momente.</div>
       </form>
     </div>
   </section>
@@ -497,16 +497,46 @@
   <p>București, România · contact@neneagigi.ro</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // Placeholder submit handler.
-  // Replace the body of this function with a POST to your Airtable form / API
-  // endpoint once it's ready — for now it just confirms locally so you can
-  // test the full flow end-to-end before wiring up real storage.
-  document.getElementById('signup-form').addEventListener('submit', function(e){
+  // ---- Fill these in with your own Supabase project values ----
+  // Project Settings → API → Project URL / anon public key
+  const SUPABASE_URL = 'https://zjmbiqvklkvuunsfbwgs.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqbWJpcXZrbGt2dXVuc2Zid2dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3Mzg5NDYsImV4cCI6MjEwMDMxNDk0Nn0.gapL1hGd6u2hCUUvubZKJP9gO08OCndiaG2DZUUGlXA';
+  // ----------------------------------------------------------------
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('signup-form');
+  const confirmMsg = document.getElementById('confirm-msg');
+  const errorMsg = document.getElementById('error-msg');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', async function(e){
     e.preventDefault();
-    // TODO: send { nume, contact, meserie } to Airtable here.
-    document.getElementById('confirm-msg').style.display = 'block';
-    this.reset();
+    confirmMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Se trimite...';
+
+    const payload = {
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      message: document.getElementById('message').value.trim() || null
+    };
+
+    const { error } = await supabaseClient.from('signups').insert([payload]);
+
+    if (error) {
+      console.error('Supabase insert error:', error);
+      errorMsg.style.display = 'block';
+    } else {
+      confirmMsg.style.display = 'block';
+      form.reset();
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Vreau să fiu anunțat';
   });
 </script>
 
