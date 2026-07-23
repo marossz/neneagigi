@@ -279,6 +279,15 @@
   }
   .field textarea{resize:vertical;}
   .field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy);}
+  .consent-field{margin-bottom:20px;}
+  .consent-label{
+    display:flex;align-items:flex-start;gap:.7em;
+    font-size:.88rem;color:var(--muted);cursor:pointer;line-height:1.45;
+  }
+  .consent-label input[type="checkbox"]{
+    width:18px;height:18px;flex-shrink:0;margin-top:.15em;accent-color:var(--red);cursor:pointer;
+  }
+  .consent-label a{color:var(--navy);font-weight:600;text-decoration:underline;}
   .order-slip .btn{width:100%;justify-content:center;margin-top:6px;font-size:1.05rem;}
   .form-note{font-size:.82rem;color:var(--muted);text-align:center;margin-top:14px;}
   #confirm-msg{
@@ -482,6 +491,12 @@
           <label for="message">Ce ai nevoie? (opțional)</label>
           <textarea id="message" name="message" rows="3" placeholder="Ex: caut un electrician de încredere pentru Sector 2"></textarea>
         </div>
+        <div class="field consent-field">
+          <label class="consent-label">
+            <input type="checkbox" id="consent" name="consent" required>
+            <span>Sunt de acord cu prelucrarea datelor mele cu caracter personal, conform <a href="confidentialitate.html" target="_blank">Politicii de confidențialitate</a>.</span>
+          </label>
+        </div>
         <button type="submit" class="btn">Vreau să fiu anunțat</button>
         <p class="form-note">Nu trimitem spam. Doar un mesaj când lansăm.</p>
         <div id="confirm-msg">Gata! Te anunțăm de îndată ce Nenea Gigi începe treaba în cartierul tău.</div>
@@ -494,7 +509,7 @@
 
 <footer>
   <a class="brand" href="#top"><span class="dot"></span>Nenea Gigi</a>
-  <p>București, România · contact@neneagigi.ro</p>
+  <p>București, România · contact@neneagigi.ro · <a href="confidentialitate.html">Politica de confidențialitate</a></p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
