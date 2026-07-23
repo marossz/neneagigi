@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cariera — Colaborează cu Nenea Gigi</title>
+<meta name="description" content="Ești meseriaș și vrei mai multe comenzi, fără bătăi de cap? Colaborează cu Nenea Gigi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F2E7;
+    --paper-dark:#EFE6D2;
+    --paper-line:#E1D6BC;
+    --ink:#221F1F;
+    --muted:#6B655C;
+    --navy:#0F2A4D;
+    --navy-light:#1B3E6B;
+    --red:#CE1125;
+    --yellow:#FCD115;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Work Sans",sans-serif;font-size:17px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:"Space Grotesk",sans-serif;margin:0 0 .4em;letter-spacing:-0.01em;}
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:"Caveat",cursive;font-size:1.4rem;font-weight:700;color:var(--red);
+    display:inline-block;transform:rotate(-2deg);margin-bottom:.2em;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:.5em;background:var(--red);color:#fff;
+    font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.02rem;
+    padding:.9em 1.6em;border-radius:999px;text-decoration:none;border:none;cursor:pointer;
+    box-shadow:0 4px 0 #96001a;transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(2px);box-shadow:0 2px 0 #96001a;}
+  .btn:focus-visible{outline:3px solid var(--navy);outline-offset:3px;}
+  .btn:disabled{opacity:.6;cursor:not-allowed;}
+  .btn-outline{background:transparent;color:var(--navy);box-shadow:none;border:2px solid var(--navy);}
+  .btn-outline:hover{background:var(--navy);color:#fff;}
+
+  header{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px dashed var(--paper-line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;}
+  .brand{display:flex;align-items:center;gap:.6em;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.25rem;text-decoration:none;color:var(--ink);}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block;}
+
+  .hero{padding:56px 0 40px;text-align:center;}
+  .hero h1{font-size:clamp(1.9rem,4vw,2.7rem);color:var(--navy);max-width:20ch;margin:0 auto .35em;}
+  .hero p.lead{font-size:1.1rem;color:var(--muted);max-width:52ch;margin:0 auto;}
+
+  .why-strip{background:var(--navy);color:#fff;padding:44px 0;}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:900px;margin:0 auto;}
+  .why-card{text-align:center;}
+  .why-card .icon{font-size:1.8rem;display:block;margin-bottom:.4em;}
+  .why-card h3{font-size:1.02rem;color:var(--yellow);margin-bottom:.3em;}
+  .why-card p{font-size:.92rem;color:#c9d5e4;margin:0;}
+
+  section.form-section{padding:70px 0 90px;}
+  .order-slip{
+    max-width:560px;margin:0 auto;background:#fff;border:2px solid var(--ink);
+    border-radius:10px;padding:38px 34px 30px;position:relative;
+  }
+  .order-slip::before{
+    content:"";position:absolute;left:-2px;right:-2px;top:96px;border-top:2px dashed var(--muted);
+  }
+  .slip-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;}
+  .slip-head span{font-family:"Caveat",cursive;font-weight:700;color:var(--red);font-size:1.2rem;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:.4em;}
+  .field input,.field textarea{
+    width:100%;padding:.75em .9em;border:2px solid var(--paper-line);border-radius:8px;
+    font-family:"Work Sans",sans-serif;font-size:1rem;background:var(--paper);
+  }
+  .field textarea{resize:vertical;}
+  .field input:focus,.field textarea:focus{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy);}
+  .consent-field{margin-bottom:20px;}
+  .consent-label{display:flex;align-items:flex-start;gap:.7em;font-size:.88rem;color:var(--muted);cursor:pointer;line-height:1.45;}
+  .consent-label input[type="checkbox"]{width:18px;height:18px;flex-shrink:0;margin-top:.15em;accent-color:var(--red);cursor:pointer;}
+  .consent-label a{color:var(--navy);font-weight:600;text-decoration:underline;}
+  .order-slip .btn{width:100%;justify-content:center;margin-top:6px;font-size:1.05rem;}
+  .form-note{font-size:.82rem;color:var(--muted);text-align:center;margin-top:14px;}
+  #confirm-msg{
+    display:none;background:#eaf6ec;border:2px solid #2e7d4f;color:#1c5c37;
+    border-radius:8px;padding:16px 18px;font-weight:600;text-align:center;margin-top:16px;
+  }
+  #error-msg{
+    display:none;background:#fbeaea;border:2px solid #b5271a;color:#8a1c11;
+    border-radius:8px;padding:16px 18px;font-weight:600;text-align:center;margin-top:16px;
+  }
+
+  footer{padding:44px 0;text-align:center;color:var(--muted);font-size:.9rem;}
+  footer .brand{justify-content:center;margin-bottom:.6em;color:var(--ink);}
+  footer a{color:var(--navy);}
+
+  @media (max-width:860px){
+    .why-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <a class="brand" href="index.html"><span class="dot"></span>Nenea Gigi</a>
+    <a class="btn-outline" style="padding:.6em 1.1em;font-size:.9rem;border-radius:999px;" href="index.html">&larr; Înapoi la site</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Pentru meseriași</span>
+      <h1>Vrei mai multe comenzi, fără bătaie de cap?</h1>
+      <p class="lead">Colaborează cu Nenea Gigi. Îți trimitem clienți verificați, direct pe telefon — tu te ocupi doar de treabă.</p>
+    </div>
+  </section>
+
+  <section class="why-strip">
+    <div class="wrap why-grid">
+      <div class="why-card">
+        <span class="icon">📞</span>
+        <h3>Comenzi reale</h3>
+        <p>Clienți din zona ta, care chiar au nevoie de tine — nu doar curioși care compară prețuri.</p>
+      </div>
+      <div class="why-card">
+        <span class="icon">🤝</span>
+        <h3>Fără concurență la ofertă</h3>
+        <p>Nu te punem să lupți cu alți 5 meseriași pe aceeași comandă.</p>
+      </div>
+      <div class="why-card">
+        <span class="icon">✅</span>
+        <h3>Alegi tu ce accepți</h3>
+        <p>Tu decizi ce comenzi preiei și când ești disponibil.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="wrap">
+      <form class="order-slip" id="cariera-form">
+        <div class="slip-head"><span>#0001</span><span>Cerere de colaborare</span></div>
+        <div class="field">
+          <label for="name">Nume</label>
+          <input type="text" id="name" name="name" placeholder="Cum te numești?" required>
+        </div>
+        <div class="field">
+          <label for="phone">Telefon</label>
+          <input type="tel" id="phone" name="phone" placeholder="07xx xxx xxx" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="nume@email.ro" required>
+        </div>
+        <div class="field">
+          <label for="description">Descrie ce lucrări faci</label>
+          <textarea id="description" name="description" rows="4" placeholder="Ex: instalații electrice, montaj mobilă, reparații generale..." required></textarea>
+        </div>
+        <div class="field consent-field">
+          <label class="consent-label">
+            <input type="checkbox" id="consent" name="consent" required>
+            <span>Sunt de acord cu prelucrarea datelor mele cu caracter personal, conform <a href="confidentialitate.html" target="_blank">Politicii de confidențialitate</a>.</span>
+          </label>
+        </div>
+        <button type="submit" class="btn">Trimite cererea</button>
+        <p class="form-note">Te contactăm noi dacă profilul tău se potrivește.</p>
+        <div id="confirm-msg">Am primit cererea ta! Te contactăm în curând.</div>
+        <div id="error-msg">Ceva n-a mers bine. Încearcă din nou în câteva momente.</div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="brand" href="index.html"><span class="dot"></span>Nenea Gigi</a>
+  <p>București, România · contact@neneagigi.ro · <a href="confidentialitate.html">Politica de confidențialitate</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zjmbiqvklkvuunsfbwgs.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqbWJpcXZrbGt2dXVuc2Zid2dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3Mzg5NDYsImV4cCI6MjEwMDMxNDk0Nn0.gapL1hGd6u2hCUUvubZKJP9gO08OCndiaG2DZUUGlXA';
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('cariera-form');
+  const confirmMsg = document.getElementById('confirm-msg');
+  const errorMsg = document.getElementById('error-msg');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    confirmMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Se trimite...';
+
+    const payload = {
+      name: document.getElementById('name').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      description: document.getElementById('description').value.trim()
+    };
+
+    const { error } = await supabaseClient.from('craftsmen_applications').insert([payload]);
+
+    if (error) {
+      console.error('Supabase insert error:', error);
+      errorMsg.style.display = 'block';
+    } else {
+      confirmMsg.style.display = 'block';
+      form.reset();
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Trimite cererea';
+  });
+</script>
+
+</body>
+</html>
