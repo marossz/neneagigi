@@ -117,20 +117,27 @@
   .avatar-stage{position:relative;display:flex;justify-content:center;align-items:center;}
   .avatar-blob{
     position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
     width:420px;height:420px;
     background:var(--yellow);
-    border-radius:48% 52% 55% 45% / 48% 45% 55% 52%;
+    border-radius:50%;
     z-index:0;
   }
   .avatar-ring{
     position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
     width:460px;height:460px;
     border:3px dashed var(--navy);
     border-radius:50%;
     opacity:.35;
     animation:spin 40s linear infinite;
   }
-  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes spin{
+    0%{transform:translate(-50%,-50%) rotate(0deg);}
+    100%{transform:translate(-50%,-50%) rotate(360deg);}
+  }
   .avatar-stage img{position:relative;z-index:1;width:340px;filter:drop-shadow(0 18px 24px rgba(15,42,79,.25));}
   .badge-tag{
     position:absolute;z-index:2;
@@ -307,7 +314,8 @@
   @media (max-width:860px){
     .hero .wrap{grid-template-columns:1fr;}
     .avatar-stage{order:-1;margin-bottom:8px;}
-    .avatar-blob,.avatar-ring{width:280px;height:280px;}
+    .avatar-blob{width:280px;height:280px;}
+    .avatar-ring{width:310px;height:310px;}
     .avatar-stage img{width:220px;}
     .pain-grid{grid-template-columns:1fr;}
     .steps-grid{grid-template-columns:1fr;}
